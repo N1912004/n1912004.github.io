@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nguyen Van A — Backend Developer</title>
+<meta name="description" content="Backend Developer · Node.js · Go · PostgreSQL · Thiết kế hệ thống chịu tải cao">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0B1220;
+  --surface:#111A2E;
+  --surface-2:#16213A;
+  --line:#233150;
+  --text:#DCE4F2;
+  --muted:#8FA0BF;
+  --accent:#5EEAD4;
+  --accent-dim:rgba(94,234,212,.12);
+  --get:#5EEAD4;
+  --post:#F0B95E;
+  --ok:#4ADE80;
+  --radius:14px;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --display:'Space Grotesk',sans-serif;
+  --body:'Inter',system-ui,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--body);font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased}
+::selection{background:var(--accent);color:#04211B}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{max-width:960px;margin:0 auto;padding:0 24px}
+
+/* ---------- top status bar ---------- */
+.statusbar{border-bottom:1px solid var(--line);font-family:var(--mono);font-size:12px}
+.statusbar .wrap{display:flex;justify-content:space-between;align-items:center;height:46px}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--ok);margin-right:8px;box-shadow:0 0 8px rgba(74,222,128,.7)}
+.statusbar nav a{color:var(--muted);margin-left:18px}
+.statusbar nav a:hover{color:var(--accent);text-decoration:none}
+
+/* ---------- hero ---------- */
+.hero{padding:72px 0 56px;display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}
+.eyebrow{font-family:var(--mono);font-size:13px;color:var(--accent);letter-spacing:.06em;margin-bottom:14px}
+h1{font-family:var(--display);font-size:clamp(34px,5.5vw,54px);font-weight:700;line-height:1.08;letter-spacing:-.02em}
+h1 .role{display:block;color:var(--muted);font-size:.52em;font-weight:500;margin-top:10px;letter-spacing:0}
+.hero p.lead{margin-top:20px;color:var(--muted);max-width:46ch}
+.cta{margin-top:28px;display:flex;gap:14px;flex-wrap:wrap}
+.btn{display:inline-block;font-family:var(--mono);font-size:14px;padding:11px 20px;border-radius:10px;border:1px solid var(--line);color:var(--text);transition:.2s}
+.btn:hover{text-decoration:none;border-color:var(--accent);color:var(--accent)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#04211B;font-weight:700}
+.btn.primary:hover{filter:brightness(1.1);color:#04211B}
+
+/* terminal card */
+.term{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;font-family:var(--mono);font-size:12.5px;box-shadow:0 24px 60px rgba(0,0,0,.4)}
+.term-head{display:flex;gap:6px;padding:12px 14px;border-bottom:1px solid var(--line)}
+.term-head i{width:11px;height:11px;border-radius:50%;background:#2A3A5E}
+.term-head i:first-child{background:#E36F6F}.term-head i:nth-child(2){background:#E3C46F}.term-head i:nth-child(3){background:#6FE38F}
+.term pre{padding:18px;overflow-x:auto;line-height:1.7;color:var(--muted)}
+.tk-c{color:#5B6B8C}.tk-k{color:var(--accent)}.tk-s{color:#F0B95E}.tk-n{color:#93C5FD}
+
+/* ---------- sections ---------- */
+section{padding:52px 0;border-top:1px solid var(--line)}
+.endpoint{display:flex;align-items:center;gap:12px;font-family:var(--mono);margin-bottom:30px}
+.method{font-size:12px;font-weight:700;padding:4px 10px;border-radius:7px;letter-spacing:.05em}
+.method.get{background:var(--accent-dim);color:var(--get)}
+.method.post{background:rgba(240,185,94,.12);color:var(--post)}
+.endpoint .path{font-size:20px;font-weight:500;color:var(--text)}
+.endpoint .status{margin-left:auto;font-size:12px;color:var(--ok)}
+
+/* stack chips */
+.stack-group{margin-bottom:22px}
+.stack-group h3{font-family:var(--mono);font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;margin-bottom:10px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-family:var(--mono);font-size:13px;padding:7px 14px;border:1px solid var(--line);border-radius:9px;background:var(--surface);color:var(--text)}
+.chip.hot{border-color:var(--accent);color:var(--accent)}
+
+/* experience */
+.job{display:grid;grid-template-columns:170px 1fr;gap:24px;padding:24px 0;border-bottom:1px dashed var(--line)}
+.job:last-child{border-bottom:none}
+.job time{font-family:var(--mono);font-size:13px;color:var(--muted);padding-top:3px}
+.job h3{font-family:var(--display);font-size:19px;font-weight:700}
+.job .co{color:var(--accent);font-size:14px;font-family:var(--mono);margin:4px 0 10px}
+.job ul{list-style:none}
+.job li{color:var(--muted);padding-left:20px;position:relative;margin-bottom:7px;font-size:15px}
+.job li::before{content:"▸";position:absolute;left:0;color:var(--accent)}
+.job li b{color:var(--text);font-weight:600}
+
+/* projects */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:24px;transition:.25s}
+.card:hover{border-color:var(--accent);transform:translateY(-3px)}
+.card h3{font-family:var(--display);font-size:17px;margin-bottom:4px}
+.card .repo{font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:12px}
+.card p{color:var(--muted);font-size:14.5px;margin-bottom:16px}
+.metrics{display:flex;gap:18px;font-family:var(--mono);font-size:12px;border-top:1px solid var(--line);padding-top:14px}
+.metrics span{color:var(--muted)}
+.metrics b{display:block;color:var(--accent);font-size:15px;font-weight:700}
+
+/* contact */
+.contact-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:32px;display:grid;grid-template-columns:1fr 1fr;gap:10px 32px;font-family:var(--mono);font-size:14px}
+.contact-card .k{color:var(--muted)}
+footer{padding:36px 0;color:var(--muted);font-family:var(--mono);font-size:12px;text-align:center;border-top:1px solid var(--line)}
+
+/* reveal animation */
+.rv{opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease}
+.rv.on{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}.card:hover{transform:none}}
+
+@media (max-width:760px){
+  .hero{grid-template-columns:1fr;padding:48px 0 40px}
+  .grid{grid-template-columns:1fr}
+  .job{grid-template-columns:1fr;gap:6px}
+  .contact-card{grid-template-columns:1fr}
+  .statusbar nav a{margin-left:12px}
+}
+</style>
+</head>
+<body>
+
+<div class="statusbar">
+  <div class="wrap">
+    <span><span class="dot"></span>status: open_to_work</span>
+    <nav>
+      <a href="#stack">/stack</a>
+      <a href="#experience">/experience</a>
+      <a href="#projects">/projects</a>
+      <a href="#contact">/contact</a>
+    </nav>
+  </div>
+</div>
+
+<header class="wrap hero">
+  <div>
+    <p class="eyebrow">$ whoami</p>
+    <h1>Nguyễn Văn A
+      <span class="role">Backend Developer · 3+ năm kinh nghiệm</span>
+    </h1>
+    <p class="lead">Tôi xây dựng API và hệ thống phân tán ổn định, dễ mở rộng — tập trung vào hiệu năng, độ tin cậy và code sạch có thể maintain lâu dài.</p>
+    <div class="cta">
+      <a class="btn primary" href="#contact">POST /contact</a>
+      <a class="btn" href="#" target="_blank">Tải CV (PDF)</a>
+      <a class="btn" href="https://github.com/username" target="_blank">GitHub ↗</a>
+    </div>
+  </div>
+  <div class="term rv">
+    <div class="term-head"><i></i><i></i><i></i></div>
+<pre><span class="tk-c"># quick look</span>
+$ curl -s api.nguyenvana.dev<span class="tk-k">/profile</span>
+{
+  <span class="tk-s">"name"</span>: <span class="tk-s">"Nguyen Van A"</span>,
+  <span class="tk-s">"role"</span>: <span class="tk-s">"Backend Developer"</span>,
+  <span class="tk-s">"core"</span>: [<span class="tk-s">"Node.js"</span>, <span class="tk-s">"Go"</span>, <span class="tk-s">"PostgreSQL"</span>],
+  <span class="tk-s">"focus"</span>: <span class="tk-s">"high-load systems"</span>,
+  <span class="tk-s">"uptime_years"</span>: <span class="tk-n">3.5</span>,
+  <span class="tk-s">"location"</span>: <span class="tk-s">"Ho Chi Minh City"</span>,
+  <span class="tk-s">"open_to_work"</span>: <span class="tk-n">true</span>
+}</pre>
+  </div>
+</header>
+
+<section id="stack" class="wrap rv">
+  <div class="endpoint">
+    <span class="method get">GET</span><span class="path">/stack</span><span class="status">200 OK</span>
+  </div>
+  <div class="stack-group">
+    <h3>Languages & Runtime</h3>
+    <div class="chips">
+      <span class="chip hot">Node.js / TypeScript</span>
+      <span class="chip hot">Go</span>
+      <span class="chip">Python</span>
+      <span class="chip">Java</span>
+    </div>
+  </div>
+  <div class="stack-group">
+    <h3>Databases & Cache</h3>
+    <div class="chips">
+      <span class="chip hot">PostgreSQL</span>
+      <span class="chip">MySQL</span>
+      <span class="chip">MongoDB</span>
+      <span class="chip hot">Redis</span>
+      <span class="chip">Elasticsearch</span>
+    </div>
+  </div>
+  <div class="stack-group">
+    <h3>Infra & Messaging</h3>
+    <div class="chips">
+      <span class="chip">Docker</span>
+      <span class="chip">Kubernetes</span>
+      <span class="chip hot">Kafka</span>
+      <span class="chip">RabbitMQ</span>
+      <span class="chip">AWS (EC2 · S3 · RDS · Lambda)</span>
+      <span class="chip">CI/CD — GitHub Actions</span>
+    </div>
+  </div>
+  <div class="stack-group">
+    <h3>Practices</h3>
+    <div class="chips">
+      <span class="chip">Microservices</span>
+      <span class="chip">RESTful / gRPC</span>
+      <span class="chip">Clean Architecture</span>
+      <span class="chip">Unit / Integration Testing</span>
+      <span class="chip">Monitoring — Grafana · Prometheus</span>
+    </div>
+  </div>
+</section>
+
+<section id="experience" class="wrap rv">
+  <div class="endpoint">
+    <span class="method get">GET</span><span class="path">/experience</span><span class="status">200 OK</span>
+  </div>
+
+  <div class="job">
+    <time>03/2024 — nay</time>
+    <div>
+      <h3>Backend Developer</h3>
+      <p class="co">Công ty ABC Tech — Fintech, HCMC</p>
+      <ul>
+        <li>Thiết kế và phát triển hệ thống thanh toán xử lý <b>50.000+ giao dịch/ngày</b>, uptime 99,95%.</li>
+        <li>Tối ưu truy vấn PostgreSQL + Redis cache, giảm p95 latency từ <b>800ms xuống 120ms</b>.</li>
+        <li>Tách monolith thành 6 microservices giao tiếp qua Kafka, giảm 40% thời gian deploy.</li>
+        <li>Review code, mentor 2 junior; xây dựng convention & tài liệu kiến trúc cho team 8 người.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="job">
+    <time>06/2022 — 02/2024</time>
+    <div>
+      <h3>Junior Backend Developer</h3>
+      <p class="co">Công ty XYZ Solutions — E-commerce, HCMC</p>
+      <ul>
+        <li>Phát triển REST API cho sàn TMĐT phục vụ <b>200.000 người dùng</b> hoạt động hàng tháng.</li>
+        <li>Viết unit test đạt coverage 85%, giảm 60% bug phát sinh trên production.</li>
+        <li>Xây dựng service thông báo (email/push) bằng RabbitMQ, gửi 1 triệu message/ngày.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="job">
+    <time>01/2022 — 05/2022</time>
+    <div>
+      <h3>Backend Intern</h3>
+      <p class="co">Startup DEF — SaaS</p>
+      <ul>
+        <li>Tham gia phát triển module quản lý người dùng & phân quyền RBAC bằng Node.js.</li>
+        <li>Viết migration & seed dữ liệu, tài liệu hóa API bằng Swagger/OpenAPI.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="projects" class="wrap rv">
+  <div class="endpoint">
+    <span class="method get">GET</span><span class="path">/projects</span><span class="status">200 OK</span>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <h3>Payment Gateway Service</h3>
+      <p class="repo">github.com/username/payment-gw</p>
+      <p>Cổng thanh toán nội bộ tích hợp 4 nhà cung cấp (Momo, VNPay, ZaloPay, Stripe) với cơ chế retry, idempotency key và đối soát tự động.</p>
+      <div class="metrics">
+        <span><b>50k+</b>txn/ngày</span>
+        <span><b>120ms</b>p95</span>
+        <span><b>99,95%</b>uptime</span>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Realtime Notification Hub</h3>
+      <p class="repo">github.com/username/notify-hub</p>
+      <p>Hệ thống push notification đa kênh (WebSocket, FCM, email) dùng Kafka làm message backbone, hỗ trợ fan-out tới hàng trăm nghìn thiết bị.</p>
+      <div class="metrics">
+        <span><b>1M</b>msg/ngày</span>
+        <span><b>3s</b>độ trễ tối đa</span>
+        <span><b>Go</b>+ Kafka</span>
+      </div>
+    </div>
+    <div class="card">
+      <h3>URL Shortener — High Load</h3>
+      <p class="repo">github.com/username/shortly</p>
+      <p>Side project luyện system design: rút gọn link chịu tải cao với Redis, Bloom filter chống trùng, rate limiting và analytics theo thời gian thực.</p>
+      <div class="metrics">
+        <span><b>10k</b>RPS (bench)</span>
+        <span><b>&lt;5ms</b>redirect</span>
+        <span><b>Docker</b>compose</span>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Log Pipeline & Monitoring</h3>
+      <p class="repo">github.com/username/logpipe</p>
+      <p>Pipeline thu thập log tập trung: Fluent Bit → Kafka → Elasticsearch, dashboard Grafana + cảnh báo tự động qua Telegram khi có anomaly.</p>
+      <div class="metrics">
+        <span><b>5GB</b>log/ngày</span>
+        <span><b>ELK</b>stack</span>
+        <span><b>Alert</b>tự động</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="education" class="wrap rv">
+  <div class="endpoint">
+    <span class="method get">GET</span><span class="path">/education</span><span class="status">200 OK</span>
+  </div>
+  <div class="job">
+    <time>2018 — 2022</time>
+    <div>
+      <h3>Kỹ sư Công nghệ Thông tin</h3>
+      <p class="co">Trường Đại học ABC — GPA 3.4/4.0</p>
+      <ul>
+        <li>Chứng chỉ: <b>AWS Certified Developer – Associate</b> (2024).</li>
+        <li>TOEIC 800 — đọc hiểu tài liệu & làm việc với team quốc tế thoải mái.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="wrap rv">
+  <div class="endpoint">
+    <span class="method post">POST</span><span class="path">/contact</span><span class="status">201 Created</span>
+  </div>
+  <div class="contact-card">
+    <span class="k">email:</span><span><a href="mailto:you@email.com">you@email.com</a></span>
+    <span class="k">phone / zalo:</span><span>09xx xxx xxx</span>
+    <span class="k">github:</span><span><a href="https://github.com/username" target="_blank">github.com/username</a></span>
+    <span class="k">linkedin:</span><span><a href="https://linkedin.com/in/username" target="_blank">linkedin.com/in/username</a></span>
+    <span class="k">location:</span><span>TP. Hồ Chí Minh (onsite / hybrid / remote)</span>
+    <span class="k">notice period:</span><span>30 ngày</span>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">© 2026 Nguyễn Văn A — built with plain HTML/CSS, no framework required · 200 OK</div>
+</footer>
+
+<script>
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target)}}),{threshold:.12});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
